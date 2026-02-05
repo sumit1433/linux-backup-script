@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "**This script take backup of /etc everyday at 20:00pm*"
+echo "**This script take backup of /tmp everyday at 20:00pm*"
 
 tar -zcf /source/backup_of_tmp-$(date +%A%y%m%d%H%M%S).tar.gz /tmp 2>/dev/null
 sleep 2
