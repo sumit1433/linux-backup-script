@@ -1,18 +1,27 @@
 #!/bin/bash
 
-echo "**This script take backup of /tmp everyday at 20:00pm*"
+echo "This script takes backup of /tmp"
 
-tar -zcf /source/backup_of_tmp"$(date)"tar.gz /tmp 2>/dev/null
-sleep 2
+tar -zcf /source/backup_of_tmp_$(date +%F_%H-%M-%S).tar.gz /tmp 2>/dev/null
 
-echo "**backup successful**"
+if [ $? -eq 0 ]
+then
+    echo "Backup successful"
+else
+    echo "Backup failed"
+    exit 1
+fi
 
-echo "*********NOW SYNCING WITH REMOTE SERVER********"
+echo "Now syncing with remote server"
 
-rsync -a /source/* 172.16.0.100:/remote/dist/
-sleep 2
+rsync -avz /source/ 172.16.0.100:/remote/dist/
 
-echo "**backup and syncing both successful**"
+if [ $? -eq 0 ]
+then
+    echo "Backup and syncing successful"
+else
+    echo "Sync failed"
+fi
 
 exit
 
